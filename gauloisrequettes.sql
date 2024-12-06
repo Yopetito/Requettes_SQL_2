@@ -143,7 +143,7 @@ FROM personnage
 INNER JOIN boire
 ON personnage.id_personnage = boire.id_personnage
 
-GROUP BY personnage.nom_personnage
+GROUP BY personnage.id_personnage
 
 ORDER BY DosePotion DESC
 
