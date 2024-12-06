@@ -134,3 +134,17 @@ SELECT nom_personnage, QttCasque
 FROM quiALePlusDeCasques
 WHERE QttCasque = (SELECT MAX(QttCasque) FROM quiALePlusDeCasques);
 
+--9. Nom des personnages et leur quantité de potion bue (en les classant du plus grand buveur
+--au plus petit).
+
+SELECT personnage.nom_personnage, SUM(boire.dose_boire) AS DosePotion
+FROM personnage 
+
+INNER JOIN boire
+ON personnage.id_personnage = boire.id_personnage
+
+GROUP BY personnage.nom_personnage
+
+ORDER BY DosePotion DESC
+
+--10
