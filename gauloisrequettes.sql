@@ -64,4 +64,5 @@ ON composer.id_ingredient = ingredient.id_ingredient
 
 GROUP BY potion.nom_potion
 
+ORDER BY Cout DESC
 
