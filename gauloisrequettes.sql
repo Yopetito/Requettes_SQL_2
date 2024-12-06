@@ -216,5 +216,14 @@ HAVING Habitants >= ALL(
 	GROUP BY lieu.id_lieu
 	)
 
+--14. Nom des personnages qui n'ont jamais bu aucune potion.
+    
+SELECT personnage.nom_personnage
+FROM personnage
+
+LEFT JOIN boire
+ON personnage.id_personnage = boire.id_personnage
+
+WHERE boire.id_potion IS NULL
 
 
