@@ -180,5 +180,18 @@ GROUP BY type_casque.id_type_casque
 
 ORDER BY Casques_Appartenant_Au_Type DESC
 
+--12. Nom des potions dont un des ingrédients est le poisson frais.
+
+SELECT potion.nom_potion
+FROM potion
+
+INNER JOIN composer
+ON potion.id_potion = composer.id_potion
+
+INNER JOIN ingredient
+ON composer.id_ingredient = ingredient.id_ingredient
+
+WHERE ingredient.nom_ingredient = 'Poisson frais'
+
 
 
