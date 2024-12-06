@@ -193,5 +193,28 @@ ON composer.id_ingredient = ingredient.id_ingredient
 
 WHERE ingredient.nom_ingredient = 'Poisson frais'
 
+--13. Nom du / des lieu(x) possédant le plus d'habitants, en dehors du village gaulois*/
+SELECT lieu.nom_lieu, COUNT(personnage.id_lieu) AS Habitants
+FROM lieu
+
+INNER JOIN personnage
+ON lieu.id_lieu = personnage.id_lieu
+
+WHERE lieu.nom_lieu NOT IN('Village gaulois')
+
+GROUP BY lieu.id_lieu
+
+HAVING Habitants >= ALL(
+	SELECT COUNT(personnage.id_lieu) AS Habitants
+	FROM lieu
+	
+	INNER JOIN personnage
+	ON lieu.id_lieu = personnage.id_lieu
+	
+	WHERE lieu.nom_lieu NOT IN('Village gaulois')
+	
+	GROUP BY lieu.id_lieu
+	)
+
 
 
