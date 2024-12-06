@@ -167,4 +167,18 @@ HAVING QttCasques >= ALL (
 	GROUP BY bataille.id_bataille
 	)
 
+--11. Combien existe-t-il de casques de chaque type et quel est leur coût total ? (classés par
+--nombre décroissant)
+
+SELECT type_casque.nom_type_casque, COUNT(casque.id_type_casque) AS Casques_Appartenant_au_Type, SUM(casque.cout_casque) AS Cout_Total
+FROM type_casque
+
+INNER JOIN casque
+ON type_casque.id_type_casque = casque.id_type_casque
+
+GROUP BY type_casque.id_type_casque
+
+ORDER BY Casques_Appartenant_Au_Type DESC
+
+
 
