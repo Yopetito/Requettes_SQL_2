@@ -147,4 +147,24 @@ GROUP BY personnage.nom_personnage
 
 ORDER BY DosePotion DESC
 
---10
+--10 Nom de la bataille où le nombre de casques pris a été le plus important.
+
+SELECT bataille.nom_bataille, SUM(prendre_casque.qte) AS QttCasques
+FROM bataille
+
+INNER JOIN prendre_casque
+ON bataille.id_bataille = prendre_casque.id_bataille
+
+GROUP BY bataille.id_bataille
+
+HAVING QttCasques >= ALL (
+	SELECT SUM(prendre_casque.qte) AS QttCasques
+	FROM bataille
+	
+	INNER JOIN prendre_casque
+	ON bataille.id_bataille = prendre_casque.id_bataille
+	
+	GROUP BY bataille.id_bataille
+	)
+
+
