@@ -85,16 +85,52 @@ WHERE potion.nom_potion = 'Santé'
 --8. Nom du ou des personnages qui ont pris le plus de casques dans la bataille 'Bataille du village
 --gaulois'.
 
-SELECT personnage.nom_personnage, bataille.nom_bataille,casque.nom_casque, prendre_casque.qte
+-- HAVING - ALL - Comparer les valeur afin de prendre le plus elevé.
+SELECT personnage.nom_personnage, SUM(prendre_casque.qte) AS QttCasque
 FROM personnage
 
 INNER JOIN prendre_casque
 ON personnage.id_personnage = prendre_casque.id_personnage
 
-INNER JOIN casque
-ON prendre_casque.id_casque = casque.id_casque
-
 INNER JOIN bataille
 ON prendre_casque.id_bataille = bataille.id_bataille
 
-WHERE bataille.nom_bataille LIKE 'Bataille du village gaulois'
+WHERE bataille.nom_bataille = 'Bataille du village gaulois'
+
+GROUP BY personnage.id_personnage 
+
+HAVING QttCasque >= ALL (
+	SELECT SUM(prendre_casque.qte) AS QttCasque
+	FROM personnage
+
+	INNER JOIN prendre_casque
+	ON personnage.id_personnage = prendre_casque.id_personnage
+	
+	INNER JOIN bataille
+	ON prendre_casque.id_bataille = bataille.id_bataille
+	
+	WHERE bataille.nom_bataille = 'Bataille du village gaulois'
+	
+	GROUP BY personnage.id_personnage 
+	)
+
+--- WITH prendre toutes les valeurs et apres recuperer le plus elevé
+WITH quiALePlusDeCasques AS (
+	SELECT personnage.nom_personnage, SUM(prendre_casque.qte) AS QttCasque
+	FROM personnage
+	
+	INNER JOIN prendre_casque
+	ON personnage.id_personnage = prendre_casque.id_personnage
+	
+	INNER JOIN bataille
+	ON prendre_casque.id_bataille = bataille.id_bataille
+
+	WHERE bataille.nom_bataille = 'Bataille du village gaulois'
+
+	GROUP BY personnage.id_personnage
+	)
+
+SELECT nom_personnage, QttCasque
+FROM quiALePlusDeCasques
+WHERE QttCasque = (SELECT MAX(QttCasque) FROM quiALePlusDeCasques);
+
