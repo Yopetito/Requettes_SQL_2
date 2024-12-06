@@ -309,4 +309,26 @@ WHERE potion.nom_potion = 'Soupe' AND ingredient.nom_ingredient = 'Persil'
 --F. Obélix s'est trompé : ce sont 42 casques Weisenau, et non Ostrogoths, qu'il a pris lors de la
 --bataille 'Attaque de la banque postale'. Corrigez son erreur !
 
+/*Modification d'une ligne existante */
+UPDATE prendre_casque
+SET id_casque = 14,
+	id_personnage = 5,
+	id_bataille = 9,
+	qte = 42
+	
+WHERE id_casque = 10 AND id_personnage = 5 AND id_bataille = 2
+-----------------------------------------------------------------------------------------------------
+/*mettre a jour la quantité de casque prit dans la bonne ligne*/
+UPDATE prendre_casque
+SET qte = qte + (
+    SELECT qte 
+    FROM prendre_casque
+    WHERE id_casque = 10 AND id_personnage = 5 AND id_bataille = 2
+)
+WHERE id_casque = 14 AND id_personnage = 5 AND id_bataille = 9;
+
+/*Effacer l'ancienne ligne avec le mauvais casque et la mauvaise bataille*/
+DELETE FROM prendre_casque
+WHERE id_casque = 10 AND id_personnage = 5 AND id_bataille = 2;
+
 
