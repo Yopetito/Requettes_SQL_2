@@ -82,8 +82,6 @@ ON composer.id_ingredient = ingredient.id_ingredient
 
 WHERE potion.nom_potion = 'Santé'
 
-GROUP BY potion.nom_potion, ingredient.nom_ingredient, composer.qte
-
 --8. Nom du ou des personnages qui ont pris le plus de casques dans la bataille 'Bataille du village
 --gaulois'.
 
