@@ -226,4 +226,18 @@ ON personnage.id_personnage = boire.id_personnage
 
 WHERE boire.id_potion IS NULL
 
+--15. Nom du / des personnages qui n'ont pas le droit de boire de la potion 'Magique'.
+SELECT personnage.nom_personnage
+FROM personnage
+
+INNER JOIN autoriser_boire
+ON personnage.id_personnage = autoriser_boire.id_personnage
+
+WHERE autoriser_boire.id_potion NOT IN(
+	SELECT autoriser_boire.id_potion
+	FROM autoriser_boire
+	
+	WHERE autoriser_boire.id_potion = 1
+	)
+
 
