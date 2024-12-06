@@ -10,7 +10,7 @@ FROM lieu
 INNER JOIN personnage
 ON lieu.id_lieu = personnage.id_lieu
 
-GROUP BY lieu.nom_lieu
+GROUP BY lieu.id_lieu
 
 ORDER BY Habitants DESC
 
@@ -37,7 +37,7 @@ FROM specialite
 INNER JOIN personnage
 ON specialite.id_specialite = personnage.id_specialite
 
-GROUP BY specialite.nom_specialite
+GROUP BY specialite.id_specialite
 
 ORDER BY Nombre_personnage DESC
 
