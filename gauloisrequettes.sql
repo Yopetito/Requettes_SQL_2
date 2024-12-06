@@ -80,7 +80,7 @@ ON potion.id_potion = composer.id_potion
 INNER JOIN ingredient
 ON composer.id_ingredient = ingredient.id_ingredient
 
-WHERE potion.nom_potion LIKE 'Santé'
+WHERE potion.nom_potion = 'Santé'
 
 GROUP BY potion.nom_potion, ingredient.nom_ingredient, composer.qte
 
