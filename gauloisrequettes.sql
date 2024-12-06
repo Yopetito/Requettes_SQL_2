@@ -241,3 +241,72 @@ WHERE autoriser_boire.id_potion NOT IN(
 	)
 
 
+
+-------------------------------------------------------------------------------------------------------------------------------
+	
+--A. Ajoutez le personnage suivant : Champdeblix, agriculteur résidant à la ferme Hantassion de
+--Rotomagus.
+
+INSERT INTO personnage (nom_personnage, adresse_personnage, id_lieu, id_specialite)
+VALUES ('Yoferix', 'Ferme Hantassion', 6, 12)
+
+
+--B. Autorisez Bonemine à boire de la potion magique, elle est jalouse d'Iélosubmarine...
+
+INSERT INTO autoriser_boire (id_potion, id_personnage)
+VALUES (1, 46)
+
+--C. Supprimez les casques grecs qui n'ont jamais été pris lors d'une bataille.
+
+DELETE FROM casque
+WHERE id_type_casque = (
+	SELECT id_type_casque
+	FROM type_casque
+	WHERE nom_type_casque = 'Grec'
+	)
+AND id_casque NOT IN (
+	SELECT prendre_casque.id_casque
+	FROM prendre_casque
+	)
+
+--D. Modifiez l'adresse de Zérozérosix : il a été mis en prison à Condate.
+
+UPDATE personnage 
+SET nom_personnage = "Zérozérosix", adresse_personnage = "En prison", id_lieu = 9
+WHERE id_personnage = 23
+
+
+--E. La potion 'Soupe' ne doit plus contenir de persil.
+
+DELETE FROM composer
+WHERE id_potion IN (
+    SELECT id_potion
+    FROM potion
+    WHERE nom_potion = 'Soupe'
+) AND id_ingredient IN (
+    SELECT id_ingredient
+    FROM ingredient
+    WHERE nom_ingredient = 'Persil'
+);
+
+---------------------------------------------------------------
+--avec jointures:
+--SI jointures: DELETE table FROM table.
+--DELETE "table ou on veut delete une ligne" FROM "table principale a partir de laquelle on selectionne les lignes" 
+
+DELETE composer FROM composer  
+
+INNER JOIN potion
+ON composer.id_potion = potion.id_potion
+
+INNER JOIN ingredient
+ON composer.id_ingredient = ingredient.id_ingredient
+
+WHERE potion.nom_potion = 'Soupe' AND ingredient.nom_ingredient = 'Persil'
+
+
+
+--F. Obélix s'est trompé : ce sont 42 casques Weisenau, et non Ostrogoths, qu'il a pris lors de la
+--bataille 'Attaque de la banque postale'. Corrigez son erreur !
+
+
